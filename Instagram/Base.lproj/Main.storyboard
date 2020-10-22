@@ -1,24 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="Instagram" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="instagram_logo" translatesAutoresizingMaskIntoConstraints="NO" id="M3o-wy-db6">
+                                <rect key="frame" x="67" y="164" width="280" height="145"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="McH-Sb-TtJ"/>
+                                    <constraint firstAttribute="height" constant="145" id="gge-Mt-j51"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="edJ-9g-7aa">
+                                <rect key="frame" x="67" y="317" width="183" height="41"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="183" id="O7F-ZA-UrF"/>
+                                    <constraint firstAttribute="height" constant="41" id="mDt-2Q-vdm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZ1-5w-LUr">
+                                <rect key="frame" x="67" y="418" width="155" height="61"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QRA-Pj-HYb">
+                                <rect key="frame" x="67" y="366" width="280" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YB3-yE-oaJ">
+                                <rect key="frame" x="67" y="487" width="280" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="57I-QA-sLZ">
+                                <rect key="frame" x="67" y="570" width="93" height="53"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="53" id="ecE-zv-zVb"/>
+                                    <constraint firstAttribute="width" constant="93" id="iPA-Nz-5MM"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Sign In">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="onSignIn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vZt-O2-3mt"/>
+                                    <segue destination="cav-AC-CbG" kind="presentation" identifier="loginSegue" id="1wX-lk-aon"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B5q-BJ-R8b">
+                                <rect key="frame" x="254" y="570" width="93" height="53"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Sign Up">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="onSignUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5DN-ld-FRj"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="lZ1-5w-LUr" firstAttribute="top" secondItem="QRA-Pj-HYb" secondAttribute="bottom" constant="18" id="39p-ig-IdA"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="M3o-wy-db6" secondAttribute="trailing" constant="67" id="7xd-Wr-C35"/>
+                            <constraint firstItem="57I-QA-sLZ" firstAttribute="top" secondItem="YB3-yE-oaJ" secondAttribute="bottom" constant="49" id="AsA-uj-7yt"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="edJ-9g-7aa" secondAttribute="trailing" constant="164" id="Hd4-BS-QMF"/>
+                            <constraint firstItem="edJ-9g-7aa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="67" id="Ibg-ME-Fac"/>
+                            <constraint firstItem="edJ-9g-7aa" firstAttribute="top" secondItem="M3o-wy-db6" secondAttribute="bottom" constant="8" id="JsX-B8-UmO"/>
+                            <constraint firstItem="QRA-Pj-HYb" firstAttribute="leading" secondItem="edJ-9g-7aa" secondAttribute="leading" id="Mof-P7-Vd6"/>
+                            <constraint firstItem="QRA-Pj-HYb" firstAttribute="leading" secondItem="YB3-yE-oaJ" secondAttribute="leading" id="PqV-L1-8Lj"/>
+                            <constraint firstItem="QRA-Pj-HYb" firstAttribute="trailing" secondItem="M3o-wy-db6" secondAttribute="trailing" id="ScW-QF-Fbn"/>
+                            <constraint firstItem="M3o-wy-db6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="120" id="Sfv-Lb-W2L"/>
+                            <constraint firstItem="QRA-Pj-HYb" firstAttribute="trailing" secondItem="B5q-BJ-R8b" secondAttribute="trailing" id="U2c-Lb-fXW"/>
+                            <constraint firstItem="QRA-Pj-HYb" firstAttribute="leading" secondItem="lZ1-5w-LUr" secondAttribute="leading" id="h1z-Yl-RR8"/>
+                            <constraint firstItem="57I-QA-sLZ" firstAttribute="top" secondItem="B5q-BJ-R8b" secondAttribute="top" id="jb0-oN-os4"/>
+                            <constraint firstItem="57I-QA-sLZ" firstAttribute="baseline" secondItem="B5q-BJ-R8b" secondAttribute="baseline" id="knr-wU-AfM"/>
+                            <constraint firstItem="QRA-Pj-HYb" firstAttribute="trailing" secondItem="YB3-yE-oaJ" secondAttribute="trailing" id="lIy-B0-OdC"/>
+                            <constraint firstItem="57I-QA-sLZ" firstAttribute="firstBaseline" secondItem="B5q-BJ-R8b" secondAttribute="firstBaseline" id="lLY-If-gee"/>
+                            <constraint firstItem="QRA-Pj-HYb" firstAttribute="top" secondItem="edJ-9g-7aa" secondAttribute="bottom" constant="8" id="ma6-bE-O8o"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="57I-QA-sLZ" secondAttribute="bottom" constant="239" id="nv8-KP-QeO"/>
+                            <constraint firstItem="B5q-BJ-R8b" firstAttribute="leading" secondItem="57I-QA-sLZ" secondAttribute="trailing" constant="94" id="qSt-79-JkZ"/>
+                            <constraint firstItem="M3o-wy-db6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="67" id="w7C-a8-WnJ"/>
+                            <constraint firstItem="QRA-Pj-HYb" firstAttribute="leading" secondItem="57I-QA-sLZ" secondAttribute="leading" id="y9p-ts-00P"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="passwordField" destination="YB3-yE-oaJ" id="zJe-EB-xl0"/>
+                        <outlet property="usernameField" destination="QRA-Pj-HYb" id="AUf-DC-kM0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="105.79710144927537" y="137.94642857142856"/>
+        </scene>
+        <!--Feed View Controller-->
+        <scene sceneID="pvM-BM-Ay3">
+            <objects>
+                <viewController id="TQ9-3x-A6o" customClass="FeedViewController" customModule="Instagram" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ynm-xs-9wy">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="elO-s6-MDu"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="3J8-da-4KU"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PZY-Hj-pej" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1692.753623188406" y="137.94642857142856"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="d7F-L4-i3M">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cav-AC-CbG" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5Vm-i0-6ig">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="TQ9-3x-A6o" kind="relationship" relationship="rootViewController" id="dmc-wp-rLw"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gNf-Y7-mFt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="782.60869565217399" y="137.94642857142856"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="instagram_logo" width="255" height="108"/>
+    </resources>
 </document>
