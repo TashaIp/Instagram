@@ -8,55 +8,164 @@
 
 import UIKit
 import Parse
-import AlamofireImage
+import Alamofire
+import MessageInputBar
 
-class FeedViewController: UIViewController, UITableViewDelegate,UITableViewDataSource {
-
-    @IBOutlet weak var tableView: UITableView!
+class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MessageInputBarDelegate {
+    
     var posts = [PFObject]()
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
-        // Do any additional setup after loading the view.
-    }
+    var selectedPost:PFObject!
+
+   
+    @IBOutlet weak var tableView: UITableView!
+    let commentBar = MessageInputBar()
+    var showsCommentBar = false
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         let query = PFQuery(className: "Posts")
-        query.includeKey("author")
+        query.includeKeys(["author", "comments", "comments.author"])
         query.limit = 20
+        
         query.findObjectsInBackground { (posts, error) in
-            if posts != nil{
+            if posts != nil {
                 self.posts = posts!
                 self.tableView.reloadData()
             }
         }
     }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        commentBar.inputTextView.placeholder = "Add a comment..."
+        commentBar.sendButton.title = "Post"
+        commentBar.delegate = self
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+         tableView.keyboardDismissMode = .interactive
+    
+    let center = NotificationCenter.default
+    center.addObserver(self, selector: #selector(keyboardWillBeHidden(note:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    
+    
+
+    // Do any additional setup after loading the view.
+}
+
+@objc func keyboardWillBeHidden(note: Notification) {
+    commentBar.inputTextView.text = nil
+    showsCommentBar = false
+    becomeFirstResponder()
+}
+
+func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String) {
+    // Create comment
+    let comment = PFObject(className: "Comments")
+    comment["test"] = text
+    comment["post"] = selectedPost
+    comment["author"] = PFUser.current()!
+
+    selectedPost.add(comment, forKey: "comments")
+
+    selectedPost.saveInBackground { (success, error) in
+        if success {
+            print("Comment Saved")
+        } else {
+            print("Error Saving Comment")
+        }
     }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+       
+tableView.reloadData()
+    // Clear and dismiss input bar
+    commentBar.inputTextView.text = nil
+    showsCommentBar = false
+    becomeFirstResponder()
+    commentBar.inputTextView.resignFirstResponder()
+}
+
+override var inputAccessoryView: UIView? {
+    return commentBar
+}
+
+override var canBecomeFirstResponder: Bool {
+    return showsCommentBar
+}
+
+func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    let post = posts[section]
+    let comments = (post["comments"] as? [PFObject]) ?? []
+    
+    return comments.count + 2
+}
+
+func numberOfSections(in tableView: UITableView) -> Int {
+    return posts.count
+}
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+    let post = posts[indexPath.section]
+    let comments = (post["comments"] as? [PFObject]) ?? []
+    
+    
+    if indexPath.row == 0 {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PosterCell") as! PosterCell
-        let post = posts[indexPath.row]
-        let user = post ["author"] as! PFUser
+        
+        let user = post["author"] as! PFUser
         cell.usernameLabel.text = user.username
         cell.captionLabel.text = post["caption"] as! String
+        
         let imageFile = post["image"] as! PFFileObject
         let urlString = imageFile.url!
         let url = URL(string: urlString)!
-        cell.photoView
-            .af_setImage(withURL: url)
+        
+        cell.photoView.af_setImage(withURL: url)
+        
+        return cell
+    } else if indexPath.row <= comments.count {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell") as! CommentCell
+        
+        let comment = comments[indexPath.row - 1]
+        cell.commentLabel.text = comment["comments"] as? String
+        
+        let user = comment["author"] as! PFUser
+        cell.nameLabel.text = user.username
+        
+        return cell
+    } else {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AddCommentCell")!
         return cell
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+}
+func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let post = posts[indexPath.section]
+    let comments = (post["comments"] as? [PFObject]) ?? []
+    
+    if indexPath.row == comments.count + 1 {
+        showsCommentBar = true
+        becomeFirstResponder()
+        commentBar.inputTextView.becomeFirstResponder()
+        
+        selectedPost = post
     }
-    */
+    
+}
+ 
+    @IBAction func onLogout(_ sender: Any) {
+        let main = UIStoryboard(name: "Main", bundle: nil)
+        let loginViewController = main.instantiateViewController(withIdentifier: "LoginViewController")
+        
+        let delegate = self.view.window?.windowScene?.delegate as! SceneDelegate
+        delegate.window?.rootViewController = loginViewController
+        
+        PFUser.logOut()
+    }
+    
 
 }
+
